@@ -30,7 +30,7 @@ export class AppComponent {
   celsius = true;
 
   cityList: Array<any>;
-  searchEntry = 'London';
+  searchEntry = '';
   searchResult: Array<any>;
   
   ngOnInit(){
@@ -70,8 +70,8 @@ export class AppComponent {
   }
 
   searchCityId(city){
-    // Only initialize the search after 3 letters have been put in
-    if (city.length > 3){
+    // Only initialize the search after 2 letters have been put in
+    if (city.length > 1){
       let temporaryArray = [];
       this.searchResult = this.cityList.filter(function(data) {
         if (data['name'].toLowerCase().indexOf(city) !== -1){
@@ -82,6 +82,9 @@ export class AppComponent {
         }
       });
       console.log(this.searchResult);
+    }
+    else{
+      this.searchResult.length = 0;
     }
   }
 

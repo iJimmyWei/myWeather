@@ -4,6 +4,12 @@
     margin-top: 0 !important;
 }
 
+.example-form{
+    width: 100%;
+    min-width: 150px;
+    max-width: 1000px;
+}
+
 .header{
     background: #FAFAFA;
     padding: 1px;
@@ -16,28 +22,20 @@
 }
 
 .location_search_box{
-    width: 80vw;
-    text-align: center;
-    justify-content: center;
-    display: flex;
-    
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
     background: #FAFAFA;
 
-    padding-top: 10px;
+    width: 80vw;
+
+    padding: 2vw;
     margin-bottom: 20px;
     margin-left: 10vw;
     margin-top: 20px;
     border: 0.1px solid #9E9E9E;
 
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-
-    .search_field{
-        width: 100vw;
-        margin-top: 0.5em;
-    }
 }
 
 .padding_container{

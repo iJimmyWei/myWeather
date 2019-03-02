@@ -11,21 +11,27 @@
 
 <form class="example-form">
     <mat-form-field class="location_search_box">
-      <input type="text" [(ngModel)]="searchEntry" class="search_field" name="name" (ngModelChange)="searchCityId(searchEntry)" matInput placeholder="Location">
+        <input type="text" placeholder="Search for Location" aria-label="Number" matInput [formControl]="myControl" [(ngModel)]="searchEntry" (ngModelChange)="searchCityId(searchEntry)" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of searchResult" [value]="option.name">
+            {{ option.name }} , {{ option.country }}
+          </mat-option>
+        </mat-autocomplete>
+      <!-- <input type="text" [(ngModel)]="searchEntry" class="search_field" name="name" (ngModelChange)="searchCityId(searchEntry)" matInput placeholder="Location"> -->
       <!-- <input class="search_field" matInput placeholder="Location" value="{{ mWeatherData?.city.name }} - {{ mWeatherData?.city.country }}"> -->
     </mat-form-field>
 </form>
 
-<form class="example-form">
+<!-- <form class="example-form">
   <mat-form-field class="example-full-width">
-    <input type="text" placeholder="Search for Location" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+    <input type="text" placeholder="Search for Location" aria-label="Number" matInput [formControl]="myControl" [(ngModel)]="searchEntry" (ngModelChange)="searchCityId(searchEntry)" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let option of searchResult" [value]="option.name">
           {{option.name }}
         </mat-option>
       </mat-autocomplete>
   </mat-form-field>
-</form>
+</form> -->
     
 <mat-tab-group class="header">
     <mat-tab *ngFor="let day of mWeatherDataF | keyvalue; let first = first" label="{{ getDayLabel(day, first) }}">
