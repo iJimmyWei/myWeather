@@ -12,7 +12,6 @@ import {FormControl} from '@angular/forms';
 
 export class AppComponent {
   myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
 
   mWeatherData: Array<any>;
   mWeatherDataF = {
@@ -26,18 +25,42 @@ export class AppComponent {
   constructor(private weatherapi: WeatherApiService,
               private searchapi: SearchService){}
 
-  title = "myWeather";
+  getTitle(){
+    if (this.mWeatherData.hasOwnProperty('city')){
+      return "myWeather - " + 
+              this.mWeatherData['city']['name'] + ', ' + 
+              this.mWeatherData['city']['country'];
+    }
+
+    return "myWeather"
+  }
+
   celsius = true;
 
-  cityList: Array<any>;
   searchEntry = '';
+
+  cityList: Array<any>;
   searchResult: Array<any>;
   
   ngOnInit(){
+    this.loadWeather();
+  }
+
+  resetFilteredData(){
+    this.mWeatherDataF = {
+      dayA: [],
+      dayB: [],
+      dayC: [],
+      dayD: [],
+      dayE: []
+    }
+  }
+
+  loadWeather(){
+    this.resetFilteredData();
+
     this.weatherapi.getWeather().subscribe((data : any[]) => {
       this.mWeatherData = data;
-
-      console.log(this.mWeatherDataF);
 
       // Categorise all the data into each day
       // But each day is relative to current time now
@@ -59,17 +82,21 @@ export class AppComponent {
         else{
           this.mWeatherDataF.dayA.push(data);
         }
-      
       }
     });
 
     this.searchapi.getCityList().subscribe((data : any[]) => {
-      console.log('City data loaded');
       this.cityList = data;
     });
   }
-
+  
   searchCityId(city){
+    // Check if the city has become an object with an ID
+    if (city.hasOwnProperty('id')){
+      this.weatherapi.cityId = city.id;
+      this.loadWeather();
+    }
+
     // Only initialize the search after 2 letters have been put in
     if (city.length > 1){
       let temporaryArray = [];
@@ -81,33 +108,18 @@ export class AppComponent {
           }
         }
       });
-      console.log(this.searchResult);
     }
     else{
-      this.searchResult.length = 0;
+      if (this.searchResult !== undefined){
+        this.searchResult.length = 0;
+      }
     }
   }
 
-  getCityId(){
-    return [this.weatherapi.cityId];
-  }
-
-  getWeatherPosition(dt){
-    let utcDate = new Date(dt.dt * 1000);
-    let hour = utcDate.getUTCHours();
-
-    // Definitions of morning, afternoon, evening and night
-    if (hour < 7 || hour > 22){
-      return 'weather_night_pos';
-    }
-    else if (hour < 12){
-      return 'weather_morning_pos';
-    }
-    else if (hour < 15){
-      return 'weather_afternoon_pos';
-    }
-    else{
-      return 'weather_evening_pos';
+  displayFn(obj){
+    if (obj.hasOwnProperty('name'))
+    {
+      return obj.name + ', ' + obj.country;
     }
   }
 
@@ -127,47 +139,4 @@ export class AppComponent {
       return days[utcDate.getUTCDay()] + ' ' + utcDate.getUTCDate() + this.getOrdinalSuffix(utcDate.getUTCDate());
     }
   }
-
-  // Convert between fahrenheit and celsius
-  getTemperature(data){
-    // Default in API is Kelvin
-    let temperature = data['temp'];
-
-    if (this.celsius){
-      return Math.floor(temperature - 273.15) + '°';
-    }
-
-    return temperature;
-  }
-
-  getWeatherIcon(data){
-    let weatherId = data.weather[0].id;
-    return 'wi wi-owm-' + weatherId;
-  }
-
-  getRainChance(data){
-    let chance = 0;
-
-    if (data.hasOwnProperty("3h")){
-      let mmPrecip = data['3h'];
-
-      // Light rain called
-      if (mmPrecip < 7){
-        chance = mmPrecip * 20 + 30;
-      }
-      else if (mmPrecip < 14){
-        chance = (mmPrecip * 20) + 40;
-      }
-      else{
-        chance = (mmPrecip * 30) + 50;
-      }
-
-      if (chance > 100){
-        chance = 100;
-      }
-    }
-
-    return Math.floor(chance) + '%';
-  }
-
 }

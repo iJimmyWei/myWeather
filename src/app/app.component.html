@@ -1,37 +1,27 @@
 
 <mat-toolbar color="primary">
     <button mat-button><mat-icon>menu</mat-icon></button>
-    <span>{{ title }}</span>
+    <span>{{ getTitle() }}</span>
   
     <!-- This fills the remaining space of the current row -->
     <span class="example-fill-remaining-space"></span>
   
-    <button mat-button><mat-icon>settings</mat-icon></button>
+    <button mat-button [matMenuTriggerFor]="settingsMenu"><mat-icon>settings</mat-icon></button>
+    <mat-menu #settingsMenu="matMenu">
+        <mat-slide-toggle>Slide me!</mat-slide-toggle>
+    </mat-menu>
   </mat-toolbar>
 
 <form class="example-form">
     <mat-form-field class="location_search_box">
         <input type="text" placeholder="Search for Location" aria-label="Number" matInput [formControl]="myControl" [(ngModel)]="searchEntry" (ngModelChange)="searchCityId(searchEntry)" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of searchResult" [value]="option.name">
-            {{ option.name }} , {{ option.country }}
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of searchResult" [value]="option">
+            {{ option.name }}, {{ option.country }}
           </mat-option>
         </mat-autocomplete>
-      <!-- <input type="text" [(ngModel)]="searchEntry" class="search_field" name="name" (ngModelChange)="searchCityId(searchEntry)" matInput placeholder="Location"> -->
-      <!-- <input class="search_field" matInput placeholder="Location" value="{{ mWeatherData?.city.name }} - {{ mWeatherData?.city.country }}"> -->
     </mat-form-field>
 </form>
-
-<!-- <form class="example-form">
-  <mat-form-field class="example-full-width">
-    <input type="text" placeholder="Search for Location" aria-label="Number" matInput [formControl]="myControl" [(ngModel)]="searchEntry" (ngModelChange)="searchCityId(searchEntry)" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of searchResult" [value]="option.name">
-          {{option.name }}
-        </mat-option>
-      </mat-autocomplete>
-  </mat-form-field>
-</form> -->
     
 <mat-tab-group class="header">
     <mat-tab *ngFor="let day of mWeatherDataF | keyvalue; let first = first" label="{{ getDayLabel(day, first) }}">
@@ -44,8 +34,8 @@
                 </mat-card-title>
 
                 <div class="weather_content_container">
-                  <div class="weather_icon_row {{getWeatherPosition(data) }}"><i class="{{getWeatherIcon(data) }} icon_wrapper"></i></div>
-                  <div class="temperature">{{ getTemperature(data.main) }}</div>
+                  <div class="weather_icon_row {{weatherapi.getWeatherPosition(data) }}"><i class="{{weatherapi.getWeatherIcon(data) }} icon_wrapper"></i></div>
+                  <div class="temperature">{{ weatherapi.getTemperature(data.main) }}</div>
                 </div>
               </div>
 
@@ -56,7 +46,7 @@
 
               <div class="precipitation_container no-padding">
                   <i class="wi wi-raindrops icon_wrapper"></i>
-                  <span class="wind_speed">{{ getRainChance(data.rain) }}</span>
+                  <span class="wind_speed">{{ weatherapi.getRainChance(data.rain) }}</span>
               </div>
             </mat-card>
           </div>
