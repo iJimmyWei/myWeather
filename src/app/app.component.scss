@@ -1,7 +1,50 @@
-// Reset padding on mat cards
-.mat-card{
-    padding: 0 !important;
-    margin-top: 0 !important;
+// Header
+.header{
+    // Required for responsive view
+    .title_container{
+        display: block;
+        width: 100vw;
+    }
+
+    .main_title_text{
+        float: left;
+    }
+
+    .city_text{
+        float: left;
+        margin-left: 0.5rem;
+    }
+    
+    // Adjust positioning of city text based on mobile or desktop view
+    @media (min-width: 320px) and (max-width: 480px) {
+        font-size: 0.9rem;
+        padding: 0;
+        padding-right: 16px;
+
+        .title_container{
+            display: inline;
+
+            .main_title_text{
+                height: 20px;
+                float: none;
+            }
+
+            .city_text{
+                font-size: 0.7rem;
+                margin: 0;
+            }
+        }
+
+        .temp_label{
+            @media (min-width: 320px) and (max-width: 480px) {
+                font-size: 0.76rem;
+            }
+        }
+    }
+}
+
+.fill-remaining-space{
+    flex: 1 1 auto;
 }
 
 .form{
@@ -10,45 +53,44 @@
     max-width: 1000px;
 }
 
-.header{
-    background: #FAFAFA;
-    padding: 1px;
-    -webkit-border-top-left-radius: 12px;
-    -webkit-border-top-right-radius: 12px;
-    -moz-border-radius-topleft: 12px;
-    -moz-border-radius-topright: 12px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
-
-.example-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-  
-h1{
-    font-size: 1rem;;
-}
-
 .location_search_box{
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
     background: #FAFAFA;
 
-    width: 80vw;
-
-    padding: 0.7vw 2vw 0 2vw;
-    margin-bottom: 20px;
-    margin-left: 5vw;
-    margin-right: 5vw;
-    margin-top: 20px;
+    padding: 0.7vw 2vw 0 3vw;
+    margin: 1vw;
     border: 0.1px solid #9E9E9E;
 
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+    width: 80vw;
+    @media (min-width: 320px) and (max-width: 480px) {
+        width: 87vw;
+        margin: 4vw 0 4vw 4vw;
+        font-size: 0.8rem;
+    }
+}
+
+// Reset padding on mat cards
+.mat-card{
+    padding: 0 !important;
+    margin-top: 0 !important;
+}
+
+.weather_container{
+    background: #FAFAFA;
+    padding: 1vw;
+    -webkit-border-top-left-radius: 12px;
+    -webkit-border-top-right-radius: 12px;
+    -moz-border-radius-topleft: 12px;
+    -moz-border-radius-topright: 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    display: flex;
+    flex:1;
+    overflow: auto;
 }
 
 .padding_container{
@@ -57,21 +99,17 @@ h1{
 
 .weather_cards_container{
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
+    min-height: min-content; /* needs vendor prefixes */
 }
 
 .weather_card{
     margin-top: 3vw;
     flex: 1 1 3em;
-    height: 25em;
-    width: 3em;
+    height: 28em;
+    width: 5em;
     position: relative;
     margin-left: -1px;
-}
-
-.fill-remaining-space{
-    flex: 1 1 auto;
 }
 
 .time{
@@ -121,7 +159,7 @@ h1{
 }
 
 .weather_afternoon_pos{
-    // margin-top: 3.5em;
+    margin-top: 1em;
 }
 
 .weather_evening_pos{
@@ -172,7 +210,7 @@ h1{
     }
 }
 
-// Wind Direction
+// Precipitation Container
 .precipitation_container{
     bottom: 0;
     height: 3em;
@@ -184,6 +222,10 @@ h1{
     justify-content: center;
     display: flex;
     float: left;
+
+    @media (min-width: 320px) and (max-width: 480px) {
+        font-size: 0.7rem;
+    }
 
     .icon_wrapper{
         font-size: 3em;

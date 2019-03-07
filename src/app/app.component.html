@@ -1,10 +1,15 @@
 
-<mat-toolbar color="primary">
-    <span>{{ getTitle() }}</span>
-  
+<mat-toolbar class="header" color="primary">
+    <button mat-button><mat-icon>terrain</mat-icon></button>
+    
+    <div class="title_container">
+      <div class="main_title_text">myWeather</div>
+      <div class="city_text">{{ getTitleCityName() }}</div>
+    </div>
+
     <!-- This fills the remaining space of the current row -->
     <span class="fill-remaining-space"></span>
-    <mat-slide-toggle (change)="switchTemperatures()">{{ getTemperatureConversionLabel() | titlecase }}</mat-slide-toggle>
+    <mat-slide-toggle class="temp_label" (change)="switchTemperatures()">{{ getTemperatureConversionLabel() | titlecase }}</mat-slide-toggle>
 </mat-toolbar>
 
 <form class="form">
@@ -18,7 +23,7 @@
     </mat-form-field>
 </form>
             
-<mat-tab-group class="header">
+<mat-tab-group class="weather_container">
     <mat-tab *ngFor="let day of mWeatherDataF | keyvalue; let first = first" label="{{ getDayLabel(day, first) }}">
         <div class="weather_cards_container">
             <mat-card class="weather_card" *ngFor="let data of day.value">

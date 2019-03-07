@@ -2,3 +2,11 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "app/css/weather-icons.min.css";
 @import "app/css/weather-icons-wind.min.css";
+
+body, html{
+    height: 100%
+}
+
+body{
+margin: 0;
+}

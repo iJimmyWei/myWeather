@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { WeatherApiService} from './weather-api.service';
 import { SearchService } from './search.service';
 import {FormControl} from '@angular/forms';
+import { HostListener } from "@angular/core";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,9 @@ import {FormControl} from '@angular/forms';
 
 export class AppComponent {
   constructor(private weatherapi: WeatherApiService,
-              private searchapi: SearchService){}
+              private searchapi: SearchService){
+                this.getScreenSize();
+              }
 
   // Initialize variables
   myControl = new FormControl();
@@ -29,15 +32,30 @@ export class AppComponent {
   searchEntry = '';
   cityList: Array<any>;
   searchResult: Array<any>;
-            
-  getTitle(){
+
+  screenHeight:any;
+  screenWidth:any;
+
+  @HostListener('window:resize', ['$event'])
+  getScreenSize(event?) {
+        this.screenHeight = window.innerHeight;
+        this.screenWidth = window.innerWidth;
+  }
+
+  getTitleCityName(){
     if (this.mWeatherData == undefined){
-      return "myWeather";
+      return "No City Selected";
     }
     else if (this.mWeatherData.hasOwnProperty('city')){
-      return "myWeather - " + 
-              this.mWeatherData['city']['name'] + ', ' + 
-              this.mWeatherData['city']['country'];
+      // Add a '-' if it's a non mobile device
+      if (this.screenWidth < 480){
+        return this.mWeatherData['city']['name'] + ', ' + 
+        this.mWeatherData['city']['country'];
+      }
+      else{
+        return ' - ' + this.mWeatherData['city']['name'] + ', ' + 
+                this.mWeatherData['city']['country'];
+      }
     }
   }
 
