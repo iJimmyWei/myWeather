@@ -136,7 +136,7 @@ export class AppComponent {
     // Only initialize the search after 4 letters have been put in
     if (city.length > 3){
       this.searchResult = this.cityList.filter(function(data) {
-        if (data['name'].toLowerCase().indexOf(city) !== -1){
+        if (data['name'].toLowerCase().indexOf(city.toLowerCase()) !== -1){
           return true;
         }
       });
