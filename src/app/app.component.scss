@@ -21,6 +21,18 @@
     border-top-right-radius: 12px;
 }
 
+.example-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+h1{
+    font-size: 1rem;;
+}
+
 .location_search_box{
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;

@@ -65,10 +65,15 @@ export class WeatherApiService {
   }
 
   // Return in celsius by default
-  getTemperature(data){
+  getTemperature(data, useCelsius = true){
     // Default in API is Kelvin
-    let temperature = data['temp'];
+    let kelvin = data['temp'];
 
-    return Math.floor(temperature - 273.15) + '°';
+    if (useCelsius){
+      return Math.floor(kelvin - 273.15) + '°';
+    }
+    else{
+      return Math.floor((kelvin - 273.15) * 9/5 + 32) + '°F';
+    }
   }
 }

@@ -35,6 +35,25 @@ export class AppComponent {
     return "myWeather"
   }
 
+  testFn(){
+    console.log('test');
+    if (this.celsius){
+      this.celsius = false;
+    }
+    else{
+      this.celsius = true;
+    }
+  }
+
+  getTemperatureConversionLabel(){
+    if (this.celsius){
+      return 'celsius';
+    }
+    else{
+      return 'fahrenheit';
+    }
+  }
+
   celsius = true;
 
   searchEntry = '';
