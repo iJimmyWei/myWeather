@@ -3,11 +3,11 @@
     <span>{{ getTitle() }}</span>
   
     <!-- This fills the remaining space of the current row -->
-    <span class="example-fill-remaining-space"></span>
-    <mat-slide-toggle (change)="testFn()">{{ getTemperatureConversionLabel() | titlecase }}</mat-slide-toggle>
+    <span class="fill-remaining-space"></span>
+    <mat-slide-toggle (change)="switchTemperatures()">{{ getTemperatureConversionLabel() | titlecase }}</mat-slide-toggle>
 </mat-toolbar>
 
-<form class="example-form">
+<form class="form">
     <mat-form-field class="location_search_box">
         <input type="text" placeholder="Search for Location" aria-label="Number" matInput [formControl]="myControl" [(ngModel)]="searchEntry" (ngModelChange)="searchCityId(searchEntry)" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">

@@ -11,6 +11,10 @@ import {FormControl} from '@angular/forms';
 })
 
 export class AppComponent {
+  constructor(private weatherapi: WeatherApiService,
+              private searchapi: SearchService){}
+
+  // Initialize variables
   myControl = new FormControl();
 
   mWeatherData: Array<any>;
@@ -21,27 +25,23 @@ export class AppComponent {
     dayD: [],
     dayE: []
   }
-
-  constructor(private weatherapi: WeatherApiService,
-              private searchapi: SearchService){}
-
+  celsius = true;
+  searchEntry = '';
+  cityList: Array<any>;
+  searchResult: Array<any>;
+            
   getTitle(){
     if (this.mWeatherData == undefined){
-      console.log('catch');
-      return;
-
+      return "myWeather";
     }
-    if (this.mWeatherData.hasOwnProperty('city')){
+    else if (this.mWeatherData.hasOwnProperty('city')){
       return "myWeather - " + 
               this.mWeatherData['city']['name'] + ', ' + 
               this.mWeatherData['city']['country'];
     }
-
-    return "myWeather"
   }
 
-  testFn(){
-    console.log('test');
+  switchTemperatures(){
     if (this.celsius){
       this.celsius = false;
     }
@@ -59,13 +59,6 @@ export class AppComponent {
     }
   }
 
-  celsius = true;
-
-  searchEntry = '';
-
-  cityList: Array<any>;
-  searchResult: Array<any>;
-  
   ngOnInit(){
     this.loadWeather();
   }
@@ -122,8 +115,8 @@ export class AppComponent {
       this.loadWeather();
     }
 
-    // Only initialize the search after 3 letters have been put in
-    if (city.length > 2){
+    // Only initialize the search after 4 letters have been put in
+    if (city.length > 3){
       this.searchResult = this.cityList.filter(function(data) {
         if (data['name'].toLowerCase().indexOf(city) !== -1){
           return true;
@@ -160,7 +153,6 @@ export class AppComponent {
     }
     else{
       if (day.value[0] == undefined){
-        console.log('caught');
         return;
       }
 

@@ -4,7 +4,7 @@
     margin-top: 0 !important;
 }
 
-.example-form{
+.form{
     width: 100%;
     min-width: 150px;
     max-width: 1000px;
@@ -59,7 +59,6 @@ h1{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    // width: 75vw;
 }
 
 .weather_card{
@@ -71,7 +70,7 @@ h1{
     margin-left: -1px;
 }
 
-.example-fill-remaining-space{
+.fill-remaining-space{
     flex: 1 1 auto;
 }
 
@@ -106,6 +105,14 @@ h1{
         font-size: 1.8em;
         color: #303F9F;
         align-items: center;
+    }
+
+    .sunny{
+        color: #F57F17;
+    }
+
+    .cloudy{
+        color: #9E9E9E;
     }
 }
 

@@ -36,28 +36,44 @@ export class WeatherApiService {
   
   getWeatherIcon(data){
     let weatherId = data.weather[0].id;
-    return 'wi wi-owm-' + weatherId;
+    let weatherType = data.weather[0].main.toLowerCase();
+    let weatherColor = '';
+
+    // Default colour is blue for rain
+    switch (weatherType){
+      case 'clear':
+        weatherColor = 'sunny';
+        break;
+      case 'clouds':
+        weatherColor = 'cloudy';
+        break;
+      default:
+        break;
+    }
+    return 'wi wi-owm-' + weatherId + ' ' + weatherColor;
   }
 
   getRainChance(data){
     let chance = 0;
 
-    if (data.hasOwnProperty("3h")){
-      let mmPrecip = data['3h'];
+    if (data != undefined){
+      if (data.hasOwnProperty('3h')){
+        let mmPrecip = data['3h'];
 
-      // Light rain called
-      if (mmPrecip < 7){
-        chance = mmPrecip * 20 + 30;
-      }
-      else if (mmPrecip < 14){
-        chance = (mmPrecip * 20) + 40;
-      }
-      else{
-        chance = (mmPrecip * 30) + 50;
-      }
+        // Light rain called
+        if (mmPrecip < 7){
+          chance = mmPrecip * 20 + 30;
+        }
+        else if (mmPrecip < 14){
+          chance = (mmPrecip * 20) + 40;
+        }
+        else{
+          chance = (mmPrecip * 30) + 50;
+        }
 
-      if (chance > 100){
-        chance = 100;
+        if (chance > 100){
+          chance = 100;
+        }
       }
     }
 
