@@ -26,6 +26,11 @@ export class AppComponent {
               private searchapi: SearchService){}
 
   getTitle(){
+    if (this.mWeatherData == undefined){
+      console.log('catch');
+      return;
+
+    }
     if (this.mWeatherData.hasOwnProperty('city')){
       return "myWeather - " + 
               this.mWeatherData['city']['name'] + ', ' + 
@@ -66,6 +71,7 @@ export class AppComponent {
   }
 
   resetFilteredData(){
+
     this.mWeatherDataF = {
       dayA: [],
       dayB: [],
@@ -116,15 +122,11 @@ export class AppComponent {
       this.loadWeather();
     }
 
-    // Only initialize the search after 2 letters have been put in
-    if (city.length > 1){
-      let temporaryArray = [];
+    // Only initialize the search after 3 letters have been put in
+    if (city.length > 2){
       this.searchResult = this.cityList.filter(function(data) {
         if (data['name'].toLowerCase().indexOf(city) !== -1){
-          // GB Countries for now
-          if (data['country'] == 'GB'){
-            return true;
-          }
+          return true;
         }
       });
     }
@@ -136,6 +138,10 @@ export class AppComponent {
   }
 
   displayFn(obj){
+    if (obj == undefined){
+      return;
+    }
+
     if (obj.hasOwnProperty('name'))
     {
       return obj.name + ', ' + obj.country;
@@ -153,6 +159,11 @@ export class AppComponent {
       return 'Today';
     }
     else{
+      if (day.value[0] == undefined){
+        console.log('caught');
+        return;
+      }
+
       let utcDate = new Date(day.value[0].dt * 1000);
       let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       return days[utcDate.getUTCDay()] + ' ' + utcDate.getUTCDate() + this.getOrdinalSuffix(utcDate.getUTCDate());

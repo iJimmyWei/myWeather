@@ -1,61 +1,49 @@
 
 <mat-toolbar color="primary">
-    <button mat-button (click)="sidenav.toggle()"><mat-icon>settings</mat-icon></button>
     <span>{{ getTitle() }}</span>
   
     <!-- This fills the remaining space of the current row -->
     <span class="example-fill-remaining-space"></span>
-  
-  </mat-toolbar>
+    <mat-slide-toggle (change)="testFn()">{{ getTemperatureConversionLabel() | titlecase }}</mat-slide-toggle>
+</mat-toolbar>
 
-<mat-sidenav-container>
-    <mat-sidenav #sidenav mode="push" [(opened)]="opened">
-          <h1>Preferences</h1>
-          <mat-slide-toggle (change)="testFn()">{{ getTemperatureConversionLabel() | titlecase }}</mat-slide-toggle>
-    </mat-sidenav>
-    
-    <mat-sidenav-content>
-        <form class="example-form">
-            <mat-form-field class="location_search_box">
-                <input type="text" placeholder="Search for Location" aria-label="Number" matInput [formControl]="myControl" [(ngModel)]="searchEntry" (ngModelChange)="searchCityId(searchEntry)" [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                  <mat-option *ngFor="let option of searchResult" [value]="option">
-                    {{ option.name }}, {{ option.country }}
-                  </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-        </form>
+<form class="example-form">
+    <mat-form-field class="location_search_box">
+        <input type="text" placeholder="Search for Location" aria-label="Number" matInput [formControl]="myControl" [(ngModel)]="searchEntry" (ngModelChange)="searchCityId(searchEntry)" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of searchResult" [value]="option">
+            {{ option.name }}, {{ option.country }}
+          </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</form>
             
-        <mat-tab-group class="header">
-            <mat-tab *ngFor="let day of mWeatherDataF | keyvalue; let first = first" label="{{ getDayLabel(day, first) }}">
-                <div class="weather_cards_container">
-                    <mat-card class="weather_card" *ngFor="let data of day.value">
-                      <div class="padding_container">
-                        <mat-card-title class="time">
-                          <span class="hour">{{ data.dt * 1000 | date:'HH' }}</span>
-                          <span class="minute">{{ data.dt * 1000 | date:'mm' }}</span>
-                        </mat-card-title>
-        
-                        <div class="weather_content_container">
-                          <div class="weather_icon_row {{weatherapi.getWeatherPosition(data) }}"><i class="{{weatherapi.getWeatherIcon(data) }} icon_wrapper"></i></div>
-                          <div class="temperature">{{ weatherapi.getTemperature(data.main, celsius) }}</div>
-                        </div>
-                      </div>
-        
-                      <div class="wind_direction_container no-padding">
-                          <i class="wi wi-wind towards-{{ data.wind.deg | number:'1.0-0'}}-deg icon_wrapper"></i>
-                          <span class="wind_speed">{{ data.wind.speed | number:'1.0-0'}}</span>
-                      </div>
-        
-                      <div class="precipitation_container no-padding">
-                          <i class="wi wi-raindrops icon_wrapper"></i>
-                          <span class="wind_speed">{{ weatherapi.getRainChance(data.rain) }}</span>
-                      </div>
-                    </mat-card>
-                  </div>
-            </mat-tab>
-        </mat-tab-group>
+<mat-tab-group class="header">
+    <mat-tab *ngFor="let day of mWeatherDataF | keyvalue; let first = first" label="{{ getDayLabel(day, first) }}">
+        <div class="weather_cards_container">
+            <mat-card class="weather_card" *ngFor="let data of day.value">
+              <div class="padding_container">
+                <mat-card-title class="time">
+                  <span class="hour">{{ data.dt * 1000 | date:'HH' }}</span>
+                  <span class="minute">{{ data.dt * 1000 | date:'mm' }}</span>
+                </mat-card-title>
 
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+                <div class="weather_content_container">
+                  <div class="weather_icon_row {{weatherapi.getWeatherPosition(data) }}"><i class="{{weatherapi.getWeatherIcon(data) }} icon_wrapper"></i></div>
+                  <div class="temperature">{{ weatherapi.getTemperature(data.main, celsius) }}</div>
+                </div>
+              </div>
 
+              <div class="wind_direction_container no-padding">
+                  <i class="wi wi-wind towards-{{ data.wind.deg | number:'1.0-0'}}-deg icon_wrapper"></i>
+                  <span class="wind_speed">{{ data.wind.speed | number:'1.0-0'}}</span>
+              </div>
+
+              <div class="precipitation_container no-padding">
+                  <i class="wi wi-raindrops icon_wrapper"></i>
+                  <span class="wind_speed">{{ weatherapi.getRainChance(data.rain) }}</span>
+              </div>
+            </mat-card>
+          </div>
+    </mat-tab>
+</mat-tab-group>
