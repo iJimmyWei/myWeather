@@ -10,6 +10,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { AppComponent } from './app.component';
 
+import 'hammerjs';
+
 @NgModule({
   declarations: [
     AppComponent
